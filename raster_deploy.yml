@@ -19,7 +19,7 @@ spec:
     spec:
       serviceAccountName: egeo-raster-dev
       containers:
-        - image: joaollr/raster:$PROJECT_VERSION
+        - image: joaollr/raster:$RASTER_VERSION
           name: rasterdev
           ports:
             - containerPort: 8082
