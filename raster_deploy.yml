@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rasterdev
+  labels:
+    version: v1
+    app: rasterdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rasterdev
+      version: v1
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: rasterdev
+    spec:
+      serviceAccountName: egeo-raster-dev
+      containers:
+        - image: joaollr/raster:$PROJECT_VERSION
+          name: rasterdev
+          ports:
+            - containerPort: 8082
+          volumeMounts:
+            - mountPath: /data
+              name: raster
+              #   - mountPath: /app/log
+              #     name: raster-v1
+              #   - mountPath: /build/app
+              #     name: raster-v1
+              #     # resources: 
+              #     #   requests:
+              #     #     memory: "512Mi"    
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: raster
+          persistentVolumeClaim:
+            claimName: raster
