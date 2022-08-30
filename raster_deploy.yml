@@ -20,6 +20,7 @@ spec:
       serviceAccountName: egeo-$SERVICE-$VERSION
       containers:
         - image: joaollr/$SERVICE:$VERSION
+          imagePullPolicy: Always
           name: $SERVICE$VERSION
           ports:
             - containerPort: 8082
