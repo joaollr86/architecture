@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rasterdev
+  name: raster$RASTER_VERSION
   labels:
     version: v1
-    app: rasterdev
+    app: raster$RASTER_VERSION
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rasterdev
+      app: raster$RASTER_VERSION
       version: v1
   template:
     metadata:
       labels:
         version: v1
-        app: rasterdev
+        app: raster$RASTER_VERSION
     spec:
-      serviceAccountName: egeo-raster-dev
+      serviceAccountName: egeo-raster-$RASTER_VERSION
       containers:
         - image: joaollr/raster:$RASTER_VERSION
-          name: rasterdev
+          name: raster$RASTER_VERSION
           ports:
             - containerPort: 8082
           volumeMounts:
