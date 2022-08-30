@@ -1,41 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: raster$RASTER_VERSION
+  name: $SERVICE$VERSION
   labels:
     version: v1
-    app: raster$RASTER_VERSION
+    app: $SERVICE$VERSION
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: raster$RASTER_VERSION
+      app: $SERVICE$VERSION
       version: v1
   template:
     metadata:
       labels:
         version: v1
-        app: raster$RASTER_VERSION
+        app: $SERVICE$VERSION
     spec:
-      serviceAccountName: egeo-raster-$RASTER_VERSION
+      serviceAccountName: egeo-$SERVICE-$VERSION
       containers:
-        - image: joaollr/raster:$RASTER_VERSION
-          name: raster$RASTER_VERSION
+        - image: joaollr/$SERVICE:$VERSION
+          name: $SERVICE$VERSION
           ports:
             - containerPort: 8082
           volumeMounts:
             - mountPath: /data
-              name: raster
+              name: $SERVICE
               #   - mountPath: /app/log
-              #     name: raster-v1
+              #     name: $SERVICE
               #   - mountPath: /build/app
-              #     name: raster-v1
+              #     name: $SERVICE
               #     # resources: 
               #     #   requests:
               #     #     memory: "512Mi"    
       imagePullSecrets:
         - name: regcred
       volumes:
-        - name: raster
+        - name: $SERVICE
           persistentVolumeClaim:
-            claimName: raster
+            claimName: $SERVICE
