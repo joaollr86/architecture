@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $SERVICE$VERSION
+  name: $SERVICE$INSTANCE
   labels:
     version: v1
-    app: $SERVICE$VERSION
+    app: $SERVICE$INSTANCE
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: $SERVICE$VERSION
+      app: $SERVICE$INSTANCE
       version: v1
   template:
     metadata:
       labels:
         version: v1
-        app: $SERVICE$VERSION
+        app: $SERVICE$INSTANCE
     spec:
-      serviceAccountName: egeo-$SERVICE-$VERSION
+      serviceAccountName: egeo-$SERVICE-$INSTANCE
       containers:
-        - image: joaollr/$SERVICE:$ACTUAL_VERSION
+        - image: joaollr/$SERVICE:$VERSION
           imagePullPolicy: Always
-          name: $SERVICE$VERSION
+          name: $SERVICE$INSTANCE
           ports:
             - containerPort: 8082
           envFrom:
