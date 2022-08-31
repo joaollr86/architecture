@@ -24,6 +24,11 @@ spec:
           name: $SERVICE$VERSION
           ports:
             - containerPort: 8082
+          envFrom:
+            #- secretRef:
+            #    name: raster-secret
+            - configMapRef:
+                name: core-config
           volumeMounts:
             - mountPath: /data
               name: $SERVICE
