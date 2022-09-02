@@ -27,8 +27,8 @@ spec:
           envFrom:
             #- secretRef:
             #    name: raster-secret
-            # - configMapRef:
-            #     name: core-config
+            - configMapRef:
+                name: core-config
           volumeMounts:
             - mountPath: /data
               name: $SERVICE
