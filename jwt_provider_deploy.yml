@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $SERVICE
+  labels:
+    version: v1
+    app: $SERVICE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $SERVICE
+      version: v1
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: $SERVICE
+    spec:
+      serviceAccountName: egeo-$SERVICE
+      containers:
+        - image: joaollr/$SERVICE:$VERSION
+          imagePullPolicy: Always
+          name: $SERVICE
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: $SERVICE-secret
+            - configMapRef:
+                name: core-config
+      imagePullSecrets:
+        - name: regcred
