@@ -33,9 +33,9 @@ spec:
           #   requests:
           #     memory: "100Mi"
           #     cpu: "1m" 
-            limits:
-              memory: "4Gi"  
-              cpu: "4000m" 
+            # limits:
+            #   memory: "4Gi"  
+            #   cpu: "4000m" 
           volumeMounts:
           - mountPath: /static
             name: $SERVICE
