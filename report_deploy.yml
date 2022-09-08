@@ -37,10 +37,8 @@ spec:
             #   memory: "4Gi"  
             #   cpu: "4000m" 
           volumeMounts:
-          - mountPath: /static
+          - mountPath: /data/
             name: $SERVICE
-          - mountPath: /app/data
-            name: $SERVICE    
       imagePullSecrets:
         - name: regcred
       volumes:
