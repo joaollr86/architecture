@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $SERVICE
+  labels:
+    version: v1
+    app: $SERVICE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $SERVICE
+      version: v1
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: $SERVICE
+    spec:
+      serviceAccountName: egeo-$SERVICE
+      containers:
+        - image: joaollr/$SERVICE:$VERSION
+          imagePullPolicy: Always
+          name: $SERVICE
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: $SERVICE-secret
+            - configMapRef:
+                name: core-config
+          resources: 
+          #   requests:
+          #     memory: "100Mi"
+          #     cpu: "1m" 
+            limits:
+              memory: "1Gi"  
+              cpu: "1000m" 
+          volumeMounts:
+          - mountPath: /static
+            name: $SERVICE
+          - mountPath: /app/data
+            name: $SERVICE    
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: $SERVICE
+          persistentVolumeClaim:
+            claimName: $SERVICE
