@@ -3,14 +3,12 @@ kind: Deployment
 metadata:
   name: $SERVICE
   labels:
-    version: v1
     app: $SERVICE
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: $SERVICE
-      version: v1
   template:
     metadata:
       labels:
@@ -30,23 +28,20 @@ spec:
             - configMapRef:
                 name: core-config
           volumeMounts:
-            - mountPath: /$SERVICE
-              name: $SERVICE
-            - mountPath: /default
-              name: default
-              #   - mountPath: /app/log
-              #     name: $SERVICE
-              #   - mountPath: /build/app
-              #     name: $SERVICE
-              #     # resources: 
-              #     #   requests:
-              #     #     memory: "512Mi"    
+            - mountPath: /static
+              name: $SERVICE-files
+            - mountPath: /app/data
+              name: vector-files
+          resources: 
+          #   requests:
+          #     memory: "100Mi"
+          #     cpu: "1m" 
+            limits:
+              memory: "1Gi"  
+              cpu: "1000m"   
       imagePullSecrets:
         - name: regcred
       volumes:
-        - name: $SERVICE
+        - name: $SERVICE-files
           persistentVolumeClaim:
-            claimName: $SERVICE
-        - name: default
-          persistentVolumeClaim:
-            claimName: default
+            claimName: $SERVICE-files
