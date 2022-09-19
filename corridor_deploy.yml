@@ -25,20 +25,20 @@ spec:
           ports:
             - containerPort: 8000
           envFrom:
-            #- secretRef:
-            #    name: raster-secret
-            # - configMapRef:
-            #     name: core-config
+            - secretRef:
+                name: $SERVICE-secret
+            - configMapRef:
+                name: core-config
+          resources: 
+          #   requests:
+          #     memory: "100Mi"
+          #     cpu: "1m" 
+            # limits:
+            #   memory: "4Gi"  
+            #   cpu: "4000m" 
           volumeMounts:
-            - mountPath: /app/data
-              name: $SERVICE
-              #   - mountPath: /app/log
-              #     name: $SERVICE
-              #   - mountPath: /build/app
-              #     name: $SERVICE
-              #     # resources: 
-              #     #   requests:
-              #     #     memory: "512Mi"    
+          - mountPath: /app/data
+            name: $SERVICE
       imagePullSecrets:
         - name: regcred
       volumes:
