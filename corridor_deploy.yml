@@ -37,7 +37,7 @@ spec:
             #   memory: "4Gi"  
             #   cpu: "4000m" 
           volumeMounts:
-          - mountPath: /app/data
+          - mountPath: /project
             name: $SERVICE
       imagePullSecrets:
         - name: regcred
