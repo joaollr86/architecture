@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $SERVICE
+  labels:
+    version: v1
+    app: $SERVICE
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: $SERVICE
+      version: v1
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: $SERVICE
+    spec:
+      serviceAccountName: egeo-$SERVICE
+      containers:
+        - image: joaollr/$SERVICE:$VERSION
+          imagePullPolicy: Always
+          name: $SERVICE
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: monetize-secret
+            - configMapRef:
+                name: monetize-config
+          volumeMounts:
+            - mountPath: /app/data
+              name: $SERVICE
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "2000m"    
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: $SERVICE
+          persistentVolumeClaim:
+            claimName: $SERVICE
