@@ -38,9 +38,9 @@ spec:
           #   requests:
           #     memory: "100Mi"
           #     cpu: "1m" 
-            limits:
-              memory: "1Gi"  
-              cpu: "1000m"   
+            # limits:
+            #   memory: "1Gi"  
+            #   cpu: "1000m"   
       imagePullSecrets:
         - name: regcred
       volumes:
