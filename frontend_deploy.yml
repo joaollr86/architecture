@@ -35,7 +35,4 @@ spec:
               cpu: "2000m"
       imagePullSecrets:
         - name: regcred
-      volumes:
-        - name: $SERVICE
-          persistentVolumeClaim:
-            claimName: $SERVICE
+        

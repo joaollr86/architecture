@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jwtprovider
+  labels:
+    version: v1
+    app: jwtprovider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jwtprovider
+      version: v1
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: jwtprovider
+    spec:
+      serviceAccountName: egeo-jwtprovider
+      containers:
+        - image: joaollr/jwtprovider:dev
+          imagePullPolicy: Always
+          name: jwtprovider
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: jwtprovider-secret
+            - configMapRef:
+                name: core-config
+      imagePullSecrets:
+        - name: regcred
