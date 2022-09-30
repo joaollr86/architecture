@@ -6,7 +6,7 @@ metadata:
     version: v1
     app: $SERVICE
 spec:
-  #replicas: 2
+  replicas: 2
   selector:
     matchLabels:
       app: $SERVICE
@@ -23,21 +23,9 @@ spec:
           imagePullPolicy: Always
           name: $SERVICE
           ports:
-            - containerPort: 8000
-          envFrom:
-            #- secretRef:
-            #    name: raster-secret
-            - configMapRef:
-                name: core-config
-          volumeMounts:
-            - mountPath: /data
-              name: $SERVICE
-            - mountPath: /app/log 
-              name: $SERVICE
-              #   - mountPath: /app/log
-              #     name: $SERVICE
-              #   - mountPath: /build/app
-              #     name: $SERVICE
+            - containerPort: 80
+            - containerPort: 8002
+            - containerPort: 8080
           resources:
             requests:
               memory: "64Mi"
@@ -47,7 +35,4 @@ spec:
               cpu: "2000m"
       imagePullSecrets:
         - name: regcred
-      volumes:
-        - name: $SERVICE
-          persistentVolumeClaim:
-            claimName: $SERVICE
+        

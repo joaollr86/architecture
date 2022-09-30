@@ -6,7 +6,7 @@ metadata:
     version: v1
     app: $SERVICE
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: $SERVICE
@@ -26,29 +26,22 @@ spec:
             - containerPort: 8000
           envFrom:
             - secretRef:
-                name: $SERVICE-secret
+                name: monetize-secret
             - configMapRef:
-                name: core-config
+                name: monetize-config
           volumeMounts:
-            - mountPath: /static
-              name: $SERVICE-files
             - mountPath: /app/data
-              name: vector-files
-            - mountPath: /default
-              name: default
-          resources: 
-          #   requests:
-          #     memory: "100Mi"
-          #     cpu: "1m" 
-            # limits:
-            #   memory: "1Gi"  
-            #   cpu: "1000m"   
+              name: $SERVICE
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "2000m"    
       imagePullSecrets:
         - name: regcred
       volumes:
-        - name: $SERVICE-files
+        - name: $SERVICE
           persistentVolumeClaim:
-            claimName: $SERVICE-files
-        - name: default
-          persistentVolumeClaim:
-            claimName: default
+            claimName: $SERVICE
