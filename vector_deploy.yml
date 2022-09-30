@@ -32,6 +32,8 @@ spec:
               name: $SERVICE-files
             - mountPath: /app/data
               name: vector-files
+            - mountPath: /default
+              name: default
           resources: 
           #   requests:
           #     memory: "100Mi"
@@ -45,3 +47,6 @@ spec:
         - name: $SERVICE-files
           persistentVolumeClaim:
             claimName: $SERVICE-files
+        - name: default
+          persistentVolumeClaim:
+            claimName: default
