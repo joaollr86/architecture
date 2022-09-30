@@ -3,12 +3,14 @@ kind: Deployment
 metadata:
   name: $SERVICE
   labels:
+    version: v1
     app: $SERVICE
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: $SERVICE
+      version: v1
   template:
     metadata:
       labels:
