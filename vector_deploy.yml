@@ -3,12 +3,14 @@ kind: Deployment
 metadata:
   name: $SERVICE
   labels:
+    version: v1
     app: $SERVICE
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: $SERVICE
+      version: v1
   template:
     metadata:
       labels:
@@ -38,9 +40,9 @@ spec:
           #   requests:
           #     memory: "100Mi"
           #     cpu: "1m" 
-            limits:
-              memory: "1Gi"  
-              cpu: "1000m"   
+            # limits:
+            #   memory: "1Gi"  
+            #   cpu: "1000m"   
       imagePullSecrets:
         - name: regcred
       volumes:
