@@ -36,9 +36,9 @@ spec:
               #   - mountPath: /build/app
               #     name: $SERVICE
           resources:
-            # requests:
-            #   memory: "64Mi"
-            #   cpu: "250m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
             limits:
               memory: "4Gi"
               cpu: "4000m"
