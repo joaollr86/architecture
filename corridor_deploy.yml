@@ -27,9 +27,9 @@ spec:
             - configMapRef:
                 name: core-config
           resources: 
-            # requests:
-            #   memory: "200Mi"
-            #   cpu: "100m" 
+            requests:
+              memory: "200Mi"
+              cpu: "100m" 
             limits:
               memory: "4Gi"  
               cpu: "4000m" 
