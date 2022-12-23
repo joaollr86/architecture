@@ -10,14 +10,11 @@ spec:
   selector:
     matchLabels:
       app: jwtprovider
-      version: v1
   template:
     metadata:
       labels:
-        version: v1
         app: jwtprovider
     spec:
-      serviceAccountName: egeo-jwtprovider
       containers:
         - image: joaollr/jwtprovider:dev
           imagePullPolicy: Always

@@ -1,27 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $SERVICE$INSTANCE
+  name: $SERVICE-deployment
   labels:
     version: v1
-    app: $SERVICE$INSTANCE
+    app: $SERVICE
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: $SERVICE$INSTANCE
-      version: v1
+      app: $SERVICE
   template:
     metadata:
       labels:
-        version: v1
-        app: $SERVICE$INSTANCE
+        app: $SERVICE
     spec:
-      serviceAccountName: egeo-$SERVICE-$INSTANCE
       containers:
         - image: joaollr/$SERVICE:$VERSION
           imagePullPolicy: Always
-          name: $SERVICE$INSTANCE
+          name: $SERVICE
           ports:
             - containerPort: 8082
           envFrom:
@@ -31,7 +28,7 @@ spec:
             #     name: core-config
           volumeMounts:
             - mountPath: /data
-              name: $SERVICE
+              name: $SERVICE-pvc
               #   - mountPath: /app/log
               #     name: $SERVICE
               #   - mountPath: /build/app
@@ -39,9 +36,16 @@ spec:
               #     # resources: 
               #     #   requests:
               #     #     memory: "512Mi"    
+          resources:
+            # requests:
+            #   memory: "64Mi"
+            #   cpu: "250m"
+            limits:
+              memory: "4Gi"
+              cpu: "4000m"   
       imagePullSecrets:
         - name: regcred
       volumes:
-        - name: $SERVICE
+        - name: $SERVICE-pvc
           persistentVolumeClaim:
-            claimName: $SERVICE
+            claimName: $SERVICE-pvc

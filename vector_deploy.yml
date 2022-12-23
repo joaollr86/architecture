@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $SERVICE
+  name: $SERVICE-deployment
   labels:
     version: v1
     app: $SERVICE
@@ -10,14 +10,11 @@ spec:
   selector:
     matchLabels:
       app: $SERVICE
-      version: v1
   template:
     metadata:
       labels:
-        version: v1
         app: $SERVICE
     spec:
-      serviceAccountName: egeo-$SERVICE
       containers:
         - image: joaollr/$SERVICE:$VERSION
           imagePullPolicy: Always
@@ -30,25 +27,23 @@ spec:
             - configMapRef:
                 name: core-config
           volumeMounts:
-            - mountPath: /static
-              name: $SERVICE-files
             - mountPath: /app/data
-              name: vector-files
+              name: vector-pvc
             - mountPath: /default
-              name: default
+              name: vector-default-pvc
           resources: 
           #   requests:
           #     memory: "100Mi"
           #     cpu: "1m" 
-            # limits:
-            #   memory: "1Gi"  
-            #   cpu: "1000m"   
+            limits:
+              memory: "4Gi"  
+              cpu: "4000m"   
       imagePullSecrets:
         - name: regcred
       volumes:
-        - name: $SERVICE-files
+        - name: $SERVICE-pvc
           persistentVolumeClaim:
-            claimName: $SERVICE-files
-        - name: default
+            claimName: $SERVICE-pvc
+        - name: vector-default-pvc
           persistentVolumeClaim:
-            claimName: default
+            claimName: vector-default-pvc

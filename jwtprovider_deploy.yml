@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $SERVICE
+  name: $SERVICE-deployment
   labels:
     version: v1
     app: $SERVICE
@@ -10,14 +10,11 @@ spec:
   selector:
     matchLabels:
       app: $SERVICE
-      version: v1
   template:
     metadata:
       labels:
-        version: v1
         app: $SERVICE
     spec:
-      serviceAccountName: egeo-$SERVICE
       containers:
         - image: joaollr/$SERVICE:$VERSION
           imagePullPolicy: Always

@@ -1,23 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $SERVICE
+  name: $SERVICE-deployment
   labels:
     version: v1
     app: $SERVICE
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: $SERVICE
-      version: v1
   template:
     metadata:
       labels:
-        version: v1
         app: $SERVICE
     spec:
-      serviceAccountName: egeo-$SERVICE
       containers:
         - image: joaollr/$SERVICE:$VERSION
           imagePullPolicy: Always
@@ -31,17 +28,17 @@ spec:
                 name: monetize-config
           volumeMounts:
             - mountPath: /app/data
-              name: $SERVICE
+              name: $SERVICE-pvc
           resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
+            # requests:
+            #   memory: "64Mi"
+            #   cpu: "250m"
             limits:
-              memory: "512Mi"
-              cpu: "2000m"    
+              memory: "4Gi"
+              cpu: "4000m"    
       imagePullSecrets:
         - name: regcred
       volumes:
-        - name: $SERVICE
+        - name: $SERVICE-pvc
           persistentVolumeClaim:
-            claimName: $SERVICE
+            claimName: $SERVICE-pvc
