@@ -28,11 +28,11 @@ spec:
                 name: core-config
           resources: 
             requests:
-              memory: "200Mi"
-              cpu: "100m" 
+              memory: "2Gi"
+              cpu: "2" 
             limits:
               memory: "4Gi"  
-              cpu: "4000m" 
+              cpu: "4" 
           volumeMounts:
           - mountPath: /project
             name: $SERVICE-pvc
