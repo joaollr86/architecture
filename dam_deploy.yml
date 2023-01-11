@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $SERVICE-deployment
+  labels:
+    version: v1
+    app: $SERVICE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $SERVICE
+  template:
+    metadata:
+      labels:
+        app: $SERVICE
+    spec:
+      containers:
+        - image: joaollr/$SERVICE:$VERSION
+          imagePullPolicy: Always
+          name: $SERVICE
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: $SERVICE-secret
+            - configMapRef:
+                name: core-config
+          volumeMounts:
+            - mountPath: /app/data
+              name: dam-pvc
+          resources: 
+            requests:
+              memory: "2Gi"
+              cpu: "2" 
+            limits:
+              memory: "4Gi"  
+              cpu: "4"  
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: $SERVICE-pvc
+          persistentVolumeClaim:
+            claimName: $SERVICE-pvc
